@@ -16,23 +16,31 @@ import java.nio.file.Paths;
 public class CalibrationGraphsApp {
 
     private static EdgeType[] edgeTypes = {
-        EdgeType.aa,
-        EdgeType.ac,
-        EdgeType.cc,
-        EdgeType.ta,
-        EdgeType.tt
+        EdgeType.aa, // bidirected
+        EdgeType.ac, // partially uncertain
+        EdgeType.cc, // uncertain
+        EdgeType.ta, // directed
+        EdgeType.tt, // undirected
+        EdgeType.nil // no edge
     };
 
     private static void runCalibrationTest(Graph trueGraph, Graph searchGraph) {
-        for (EdgeType edgeType : edgeTypes) {
+        int length = edgeTypes.length - 1;
+        for (int i = 0; i < length; i++) {
             GraphCalibration.examineGraphs(
                     searchGraph,
                     trueGraph,
-                    edgeType,
+                    edgeTypes[i],
                     System.out,
-                    false);
+                    true);
             System.out.println("--------------------------------------------------------------------------------");
         }
+        GraphCalibration.examineGraphs(
+                searchGraph,
+                trueGraph,
+                edgeTypes[length],
+                System.out,
+                true);
     }
 
     public static void main(String[] args) {

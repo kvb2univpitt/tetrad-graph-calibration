@@ -53,7 +53,7 @@ public final class PrintUtility {
             case tt:
                 return String.format("%s --- %s,%f,%d", node1, node2, probability, observedValue);
             default:
-                return String.format("no edge,%f,%d", node1, node2, probability, observedValue);
+                return String.format("no edge,%f,%d", probability, observedValue);
         }
     }
 
@@ -79,7 +79,7 @@ public final class PrintUtility {
             case tt:
                 return String.format("%s --- %s: %f %d", node1, node2, probability, observedValue);
             default:
-                return String.format("no edge: %f %d", node1, node2, probability, observedValue);
+                return String.format("no edge: %f %d", probability, observedValue);
         }
     }
 
