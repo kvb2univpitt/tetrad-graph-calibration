@@ -1,4 +1,4 @@
-package edu.pitt.dbmi.calibration.test;
+package edu.pitt.dbmi.calibration.test.utils;
 
 import edu.cmu.tetrad.util.Parameters;
 
