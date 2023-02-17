@@ -4,9 +4,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
+# dataFile = 'data/pag_sampling/bidirected.csv'
+# plotLabel = 'bidirected (<->)'
+#######################################
+# dataFile = 'data/pag_sampling/partially_uncertain.csv'
+# plotLabel = 'partially uncertain (o->)'
+#######################################
+# dataFile = 'data/pag_sampling/uncertain.csv'
+# plotLabel = 'uncertain (o-o)'
+#######################################
+dataFile = 'data/pag_sampling/directed.csv'
+plotLabel = 'directed (-->)'
+#######################################
+# dataFile = 'data/pag_sampling/undirected.csv'
+# plotLabel = 'directed (---)'
+
 pred_data = []
 obs_data = []
-with open('data/gfci_edges.csv') as csv_file:
+with open(dataFile) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         pred_data.append(float(row[1]))
@@ -29,9 +44,9 @@ plt.title('Edge Calibration')
 plt.grid(visible=None)
 
 # Plot model's calibration curve
-plt.plot(prob_pred, prob_true, marker='.', label='directed edge (-->)')
+plt.plot(prob_pred, prob_true, marker='.', label=plotLabel)
 
-leg = plt.legend(loc='upper left')
+leg = plt.legend(loc='lower right')
 plt.xlabel('Mean Predicted Probability')
 plt.ylabel('Fraction of Positives')
 plt.tight_layout()
