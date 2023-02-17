@@ -23,7 +23,7 @@ public class CalibrationAgloRunApp {
     private static void runCalibrationTest(DataModel dataModel, Graph trueGraph) {
         Graph searchGraph = runGfic(dataModel, AlgoRunParameters.getParametersForGfciRun());
         System.out.println("--------------------------------------------------------------------------------");
-        GraphCalibration.examineGraphs(
+        GraphCalibration.examineGraphsEdgeTypes(
                 searchGraph,
                 trueGraph,
                 EdgeType.at,

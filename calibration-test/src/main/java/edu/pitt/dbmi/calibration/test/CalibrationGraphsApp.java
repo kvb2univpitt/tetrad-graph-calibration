@@ -24,10 +24,14 @@ public class CalibrationGraphsApp {
         EdgeType.nil // no edge
     };
 
-    private static void runCalibrationTest(Graph trueGraph, Graph searchGraph) {
+    private static void runCalibrationTestEdges(Graph trueGraph, Graph searchGraph) {
+        GraphCalibration.examineGraphsEdges(searchGraph, trueGraph, System.out, false);
+    }
+
+    private static void runCalibrationTestEdgeTypes(Graph trueGraph, Graph searchGraph) {
         int length = edgeTypes.length - 1;
         for (int i = 0; i < length; i++) {
-            GraphCalibration.examineGraphs(
+            GraphCalibration.examineGraphsEdgeTypes(
                     searchGraph,
                     trueGraph,
                     edgeTypes[i],
@@ -35,7 +39,7 @@ public class CalibrationGraphsApp {
                     true);
             System.out.println("--------------------------------------------------------------------------------");
         }
-        GraphCalibration.examineGraphs(
+        GraphCalibration.examineGraphsEdgeTypes(
                 searchGraph,
                 trueGraph,
                 edgeTypes[length],
@@ -52,7 +56,7 @@ public class CalibrationGraphsApp {
         try {
             Graph trueGraph = ResourceLoader.loadGraph(trueGraphFile);
             Graph searchGraph = ResourceLoader.loadGraph(searchGraphFile);
-            runCalibrationTest(trueGraph, searchGraph);
+            runCalibrationTestEdges(trueGraph, searchGraph);
         } catch (Exception exception) {
             exception.printStackTrace(System.err);
         }

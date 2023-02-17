@@ -1,6 +1,5 @@
 package edu.pitt.dbmi.calibration.test.utils;
 
-import edu.pitt.dbmi.calibration.test.utils.PrintUtility;
 import edu.cmu.tetrad.graph.Edge;
 import edu.cmu.tetrad.graph.EdgeTypeProbability.EdgeType;
 import static edu.cmu.tetrad.graph.EdgeTypeProbability.EdgeType.aa;
@@ -29,7 +28,11 @@ public final class GraphCalibration {
     private GraphCalibration() {
     }
 
-    public static void examineGraphs(Graph searchGraph, Graph trueGraph, EdgeType edgeType, PrintStream writer, boolean csv) {
+    public static void examineGraphsEdges(Graph searchGraph, Graph trueGraph, PrintStream writer, boolean csv) {
+        getSearchGraphEdgeProbabilities(searchGraph);
+    }
+
+    public static void examineGraphsEdgeTypes(Graph searchGraph, Graph trueGraph, EdgeType edgeType, PrintStream writer, boolean csv) {
         Set<EdgeProbability> edgeProbabilities = getSearchGraphEdgeProbabilities(searchGraph, edgeType);
         setTrueGraphEdgeProbabilities(trueGraph, edgeProbabilities);
 
@@ -118,6 +121,18 @@ public final class GraphCalibration {
                     edges.add(new EdgeProbability(node1, node2, EdgeType.tt, edgeProb.getProbability()));
                 }
             });
+        });
+
+        return edges;
+    }
+
+    private static Set<Edge> getSearchGraphEdgeProbabilities(Graph graph) {
+        Set<Edge> edges = new HashSet<>();
+
+        graph.getEdges().forEach(edge -> {
+            Node node1 = edge.getNode1();
+            Node node2 = edge.getNode2();
+            System.out.printf("%s --- %s: %f%n", node1, node2, edge.getProbability());
         });
 
         return edges;
