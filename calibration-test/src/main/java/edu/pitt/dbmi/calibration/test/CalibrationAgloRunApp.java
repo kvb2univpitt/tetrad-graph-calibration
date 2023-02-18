@@ -4,7 +4,6 @@ import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.GFCI;
 import edu.cmu.tetrad.algcomparison.independence.GSquare;
 import edu.cmu.tetrad.algcomparison.score.BdeuScore;
 import edu.cmu.tetrad.data.DataModel;
-import edu.cmu.tetrad.graph.EdgeTypeProbability.EdgeType;
 import edu.cmu.tetrad.graph.Graph;
 import edu.cmu.tetrad.util.Parameters;
 import edu.pitt.dbmi.calibration.test.utils.AlgoRunParameters;
@@ -23,12 +22,7 @@ public class CalibrationAgloRunApp {
     private static void runCalibrationTest(DataModel dataModel, Graph trueGraph) {
         Graph searchGraph = runGfic(dataModel, AlgoRunParameters.getParametersForGfciRun());
         System.out.println("--------------------------------------------------------------------------------");
-        GraphCalibration.examineGraphsEdgeTypes(
-                searchGraph,
-                trueGraph,
-                EdgeType.at,
-                System.out,
-                true);
+        GraphCalibration.examineDirectEdge(searchGraph, trueGraph, System.out, true);
         System.out.println("--------------------------------------------------------------------------------");
     }
 

@@ -17,8 +17,8 @@ public class CalibrationAgloRunAppTest {
     @Disabled
     @Test
     public void testMain() {
-        String data = CalibrationAgloRunAppTest.class.getResource("/data/sim/data/data.1.txt").getFile();
-        String graph = CalibrationAgloRunAppTest.class.getResource("/data/sim/graph/graph.1.txt").getFile();
+        String data = CalibrationAgloRunAppTest.class.getResource("/data/discrete_20var_1kcase/simulation/data/data.1.txt").getFile();
+        String graph = CalibrationAgloRunAppTest.class.getResource("/data/discrete_20var_1kcase/simulation/graph/graph.1.txt").getFile();
         String[] args = {
             data,
             graph
