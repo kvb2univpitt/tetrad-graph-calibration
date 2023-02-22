@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class EdgeValue implements Comparable<EdgeValue> {
 
-    private double probability;
+    private double predictedValue;
     private int observedValue;
 
     private final String node1;
@@ -25,7 +25,7 @@ public class EdgeValue implements Comparable<EdgeValue> {
     }
 
     public EdgeValue(double probability, int observedValue, String node1, String node2, EdgeType edgeType) {
-        this.probability = probability;
+        this.predictedValue = probability;
         this.observedValue = observedValue;
         this.node1 = node1;
         this.node2 = node2;
@@ -77,32 +77,53 @@ public class EdgeValue implements Comparable<EdgeValue> {
 
     @Override
     public String toString() {
-        switch (edgeType) {
-            case aa:
-                return String.format("%s <-> %s: %f %d", node1, node2, probability, observedValue);
-            case ac:
-                return String.format("%s <-o %s: %f %d", node1, node2, probability, observedValue);
-            case at:
-                return String.format("%s <-- %s: %f %d", node1, node2, probability, observedValue);
-            case ca:
-                return String.format("%s o-> %s: %f %d", node1, node2, probability, observedValue);
-            case cc:
-                return String.format("%s o-o %s: %f %d", node1, node2, probability, observedValue);
-            case ta:
-                return String.format("%s --> %s: %f %d", node1, node2, probability, observedValue);
-            case tt:
-                return String.format("%s --- %s: %f %d", node1, node2, probability, observedValue);
-            default:
-                return String.format("no edge: %f %d", probability, observedValue);
+        if (predictedValue > 0) {
+            switch (edgeType) {
+                case aa:
+                    return String.format("%s <-> %s: %f %d", node1, node2, predictedValue, observedValue);
+                case ac:
+                    return String.format("%s <-o %s: %f %d", node1, node2, predictedValue, observedValue);
+                case at:
+                    return String.format("%s <-- %s: %f %d", node1, node2, predictedValue, observedValue);
+                case ca:
+                    return String.format("%s o-> %s: %f %d", node1, node2, predictedValue, observedValue);
+                case cc:
+                    return String.format("%s o-o %s: %f %d", node1, node2, predictedValue, observedValue);
+                case ta:
+                    return String.format("%s --> %s: %f %d", node1, node2, predictedValue, observedValue);
+                case tt:
+                    return String.format("%s --- %s: %f %d", node1, node2, predictedValue, observedValue);
+                default:
+                    return String.format("no edge: %f %d", predictedValue, observedValue);
+            }
+        } else {
+            switch (edgeType) {
+                case aa:
+                    return String.format("%s <-> %s: 0 %d", node1, node2, observedValue);
+                case ac:
+                    return String.format("%s <-o %s: 0 %d", node1, node2, observedValue);
+                case at:
+                    return String.format("%s <-- %s: 0 %d", node1, node2, observedValue);
+                case ca:
+                    return String.format("%s o-> %s: 0 %d", node1, node2, observedValue);
+                case cc:
+                    return String.format("%s o-o %s: 0 %d", node1, node2, observedValue);
+                case ta:
+                    return String.format("%s --> %s: 0 %d", node1, node2, observedValue);
+                case tt:
+                    return String.format("%s --- %s: 0 %d", node1, node2, observedValue);
+                default:
+                    return String.format("no edge: 0 %d", observedValue);
+            }
         }
     }
 
-    public double getProbability() {
-        return probability;
+    public double getPredictedValue() {
+        return predictedValue;
     }
 
-    public void setProbability(double probability) {
-        this.probability = probability;
+    public void setPredictedValue(double predictedValue) {
+        this.predictedValue = predictedValue;
     }
 
     public int getObservedValue() {

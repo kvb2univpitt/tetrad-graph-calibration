@@ -24,10 +24,9 @@ public final class GraphCalibration {
     }
 
     public static void examineDirectEdge(Graph searchGraph, Graph trueGraph, PrintStream writer, boolean csv) {
-        EdgeType edgeType = EdgeType.ta;
-        Set<EdgeValue> edgeValues = createEdgeValues(trueGraph, edgeType, true);
-        setObservedValues(trueGraph, edgeType, edgeValues);
-        setPredictedValues(searchGraph, edgeType, edgeValues);
+        Set<EdgeValue> edgeValues = createEdgeValues(trueGraph, EdgeType.ta, true);
+        setObservedValues(trueGraph, edgeValues);
+        setPredictedValues(searchGraph, edgeValues);
 
         if (csv) {
             PrintUtility.displayCSV(edgeValues, writer);
@@ -36,7 +35,7 @@ public final class GraphCalibration {
         }
     }
 
-    private static void setPredictedValues(Graph searchGraph, EdgeType edgeType, Set<EdgeValue> edgeValues) {
+    private static void setPredictedValues(Graph searchGraph, Set<EdgeValue> edgeValues) {
         for (EdgeValue edgeValue : edgeValues) {
             Node node1 = searchGraph.getNode(edgeValue.getNode1());
             Node node2 = searchGraph.getNode(edgeValue.getNode2());
@@ -44,9 +43,24 @@ public final class GraphCalibration {
             if (edge != null) {
                 List<EdgeTypeProbability> edgeTypeProbs = edge.getEdgeTypeProbabilities();
                 if (edgeTypeProbs != null) {
-                    for (EdgeTypeProbability edgeTypeProb : edgeTypeProbs) {
-                        if (edgeType == edgeTypeProb.getEdgeType()) {
-                            edgeValue.setProbability(edgeTypeProb.getProbability());
+                    Node edgeNode1 = edge.getNode1();
+                    Node edgeNode2 = edge.getNode2();
+                    if (node1.getName().equals(edgeNode1.getName()) && node2.getName().equals(edgeNode2.getName())) {
+                        for (EdgeTypeProbability edgeTypeProb : edgeTypeProbs) {
+                            if (edgeValue.getEdgeType() == edgeTypeProb.getEdgeType()) {
+                                edgeValue.setPredictedValue(edgeTypeProb.getProbability());
+                            } else {
+                                boolean isReversed = false;
+                                if (edgeValue.getEdgeType() == EdgeType.ta && edgeTypeProb.getEdgeType() == EdgeType.at) {
+                                    isReversed = true;
+                                } else if (edgeValue.getEdgeType() == EdgeType.ca && edgeTypeProb.getEdgeType() == EdgeType.ac) {
+                                    isReversed = true;
+                                }
+
+                                if (isReversed) {
+                                    edgeValue.setPredictedValue(edgeTypeProb.getProbability());
+                                }
+                            }
                         }
                     }
                 }
@@ -54,16 +68,15 @@ public final class GraphCalibration {
         }
     }
 
-    private static void setObservedValues(Graph trueGraph, EdgeType edgeType, Set<EdgeValue> edgeValues) {
+    private static void setObservedValues(Graph trueGraph, Set<EdgeValue> edgeValues) {
         for (EdgeValue edgeValue : edgeValues) {
             Node node1 = trueGraph.getNode(edgeValue.getNode1());
             Node node2 = trueGraph.getNode(edgeValue.getNode2());
-
             Edge edge = trueGraph.getEdge(node1, node2);
             if (edge != null) {
                 Endpoint endpoint1 = edge.getProximalEndpoint(node1);
                 Endpoint endpoint2 = edge.getProximalEndpoint(node2);
-                if (edgeType == getEdgeType(endpoint1, endpoint2)) {
+                if (edgeValue.getEdgeType() == getEdgeType(endpoint1, endpoint2)) {
                     edgeValue.setObservedValue(1);
                 }
             }

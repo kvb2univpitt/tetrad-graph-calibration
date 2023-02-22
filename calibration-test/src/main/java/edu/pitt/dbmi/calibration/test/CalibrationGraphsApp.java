@@ -25,10 +25,11 @@ public class CalibrationGraphsApp {
     };
 
     private static void runCalibrationTestEdges(Graph trueGraph, Graph searchGraph, EdgeType edgeType) {
+        boolean csv = true;
         switch (edgeType) {
             case ta:
             case at:
-                GraphCalibration.examineDirectEdge(searchGraph, trueGraph, System.out, true);
+                GraphCalibration.examineDirectEdge(searchGraph, trueGraph, System.out, csv);
             default:
         }
     }

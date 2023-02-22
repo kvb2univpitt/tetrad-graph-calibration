@@ -1,5 +1,7 @@
 package edu.pitt.dbmi.calibration.test.utils;
 
+import edu.cmu.tetrad.graph.EdgeTypeProbability.EdgeType;
+import static edu.cmu.tetrad.graph.EdgeTypeProbability.EdgeType.aa;
 import edu.pitt.dbmi.calibration.test.EdgeValue;
 import java.io.PrintStream;
 import java.util.Set;
@@ -22,7 +24,7 @@ public final class PrintUtility {
     private static String displayCSV(EdgeValue edgeValue) {
         String node1 = edgeValue.getNode1();
         String node2 = edgeValue.getNode2();
-        double probability = edgeValue.getProbability();
+        double probability = edgeValue.getPredictedValue();
         int observedValue = edgeValue.getObservedValue();
 
         if (probability > 0) {
@@ -63,6 +65,27 @@ public final class PrintUtility {
                 default:
                     return String.format("no edge,0,%d", observedValue);
             }
+        }
+    }
+
+    public static String toString(EdgeType edgeType) {
+        switch (edgeType) {
+            case aa:
+                return "<->";
+            case ac:
+                return "<-o";
+            case at:
+                return "<--";
+            case ca:
+                return "o->";
+            case cc:
+                return "o-o";
+            case ta:
+                return "-->";
+            case tt:
+                return "---";
+            default:
+                return "no edge";
         }
     }
 
